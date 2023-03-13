@@ -1,11 +1,13 @@
 import React from 'react';
 import { Component } from 'react';
 import styled from 'styled-components';
+import { ColorRing } from 'react-loader-spinner';
 
 import Loader from './Loader/Loader';
 import { Sesrchbar } from './Searchbar/Searchbar';
 import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem';
 import { LoadMoreBtn } from './Button/Button';
+import { Modal } from './Modal/Modal';
 
 const statusList = {
   loading: 'loading',
@@ -19,11 +21,17 @@ export class App extends Component {
   state = {
     images: [],
     page: 1,
-    pages: 2,
+    pages: 1,
     error: null,
     searchQuery: 'cars',
-    // loading:true,
     status: statusList.idle,
+    showModal: false,
+  };
+
+  toggleModal = () => {
+    this.setState(state => ({
+      showModal: !state.showModal,
+    }));
   };
 
   handleSubmit = str => {
@@ -66,6 +74,15 @@ export class App extends Component {
         <div>
           <Sesrchbar onSubmit={this.handleSubmit} />
           <Preloader>
+            <ColorRing
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="blocks-loading"
+              wrapperStyle={{}}
+              wrapperClass="blocks-wrapper"
+              colors={['#e15b64', '#ff3300', '#f8b26a', '#b3ff00', '#849b87']}
+            />
             <h1>Loading....</h1>
           </Preloader>
         </div>
@@ -77,7 +94,11 @@ export class App extends Component {
           <Sesrchbar onSubmit={this.handleSubmit} />
           <ImageGallery>
             {images.map(image => (
-              <ImageGalleryItem key={image.id} imageURL={image.largeImageURL} />
+              <ImageGalleryItem
+                onClick={this.toggleModal()}
+                key={image.id}
+                imageURL={image.largeImageURL}
+              />
             ))}
           </ImageGallery>
           <LoadMoreBtn
@@ -85,7 +106,7 @@ export class App extends Component {
             page={page}
             pages={pages}
           />
-          ;
+          <Modal onModalClose={this.toggleModal}></Modal>
         </>
       );
     }

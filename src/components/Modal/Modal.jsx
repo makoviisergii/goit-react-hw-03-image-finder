@@ -23,7 +23,7 @@ export class Modal extends Component {
     document.removeEventListener('keydown', this.handlePressKey);
   }
   render() {
-    const { children, onModalClose } = this.props;
+    const { children } = this.props;
     return ReactDOM.createPortal(
       <>
         <ModalBackdrop
@@ -45,17 +45,15 @@ const ModalBackdrop = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(5px);
 `;
 const ModalBody = styled.div`
-  overflow: scroll;
-  overflow-x: hidden;
-
   position: absolute;
-
-  top: 0%;
+  overflow: hidden;
+  top: 10%;
   left: 50%;
   transform: translate(-50%, 0%);
-  max-width: 70%;
+  max-width: 80%;
+  max-height: 80%;
 `;

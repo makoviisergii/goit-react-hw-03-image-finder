@@ -25,13 +25,8 @@ export class App extends Component {
     error: null,
     searchQuery: 'cars',
     status: statusList.idle,
-    showModal: false,
-  };
-
-  toggleModal = () => {
-    this.setState(state => ({
-      showModal: !state.showModal,
-    }));
+    isOpen: false,
+    largeImg: '',
   };
 
   handleSubmit = str => {
@@ -66,6 +61,15 @@ export class App extends Component {
       this.handleGetImages();
     }
   }
+  setId = largeImg => {
+    this.setState({ largeImg });
+  };
+
+  toggleModal = () => {
+    this.setState(state => ({
+      isOpen: !state.isOpen,
+    }));
+  };
 
   render() {
     const { images, status, page, pages } = this.state;
@@ -95,9 +99,12 @@ export class App extends Component {
           <ImageGallery>
             {images.map(image => (
               <ImageGalleryItem
-                onClick={this.toggleModal()}
+                id={image.id}
+                onClickImage={this.setId}
                 key={image.id}
-                imageURL={image.largeImageURL}
+                imageURL={image.webformatURL}
+                idForModal={image.largeImageURL}
+                toggleModal={this.toggleModal}
               />
             ))}
           </ImageGallery>
@@ -106,7 +113,13 @@ export class App extends Component {
             page={page}
             pages={pages}
           />
-          <Modal onModalClose={this.toggleModal}></Modal>
+          {this.state.isOpen && (
+            <div>
+              <Modal onModalClose={this.toggleModal}>
+                <img src={this.state.largeImg} alt=""></img>
+              </Modal>
+            </div>
+          )}
         </>
       );
     }

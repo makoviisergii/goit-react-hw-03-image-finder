@@ -1,10 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export const ImageGalleryItem = ({ imageURL }) => {
+export const ImageGalleryItem = ({
+  toggleModal,
+  idForModal,
+  imageURL,
+  onClickImage,
+}) => {
+  const handle = () => {
+    toggleModal();
+    onClickImage(idForModal);
+  };
+
   return (
     <ImageContainer>
-      <ImageItem src={imageURL} alt="img" />
+      <ImageItem onClick={handle} src={imageURL} alt="img" />
     </ImageContainer>
   );
 };

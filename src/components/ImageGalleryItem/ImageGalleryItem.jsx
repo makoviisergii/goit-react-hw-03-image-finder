@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 export const ImageGalleryItem = ({
   toggleModal,
-  idForModal,
+  largeImageURL,
   imageURL,
   onClickImage,
 }) => {
   const handle = () => {
     toggleModal();
-    onClickImage(idForModal);
+    onClickImage(largeImageURL);
   };
 
   return (
@@ -17,6 +18,14 @@ export const ImageGalleryItem = ({
       <ImageItem onClick={handle} src={imageURL} alt="img" />
     </ImageContainer>
   );
+};
+
+ImageGalleryItem.propTypes = {
+  toggleModal: PropTypes.func.isRequired,
+  onClickImage: PropTypes.func.isRequired,
+  imageURL: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
 const ImageItem = styled.img`

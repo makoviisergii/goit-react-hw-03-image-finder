@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const root = document.getElementById('modal');
 export class Modal extends Component {
@@ -26,10 +27,7 @@ export class Modal extends Component {
     const { children } = this.props;
     return ReactDOM.createPortal(
       <>
-        <ModalBackdrop
-          onClick={this.closeModalBackdrop}
-          style={{ display: 'block' }}
-        >
+        <ModalBackdrop onClick={this.closeModalBackdrop}>
           <ModalBody>{children}</ModalBody>
         </ModalBackdrop>
       </>,
@@ -37,6 +35,10 @@ export class Modal extends Component {
     );
   }
 }
+
+Modal.propTypes = {
+  onModalClose: PropTypes.func.isRequired,
+};
 
 const ModalBackdrop = styled.div`
   position: fixed;

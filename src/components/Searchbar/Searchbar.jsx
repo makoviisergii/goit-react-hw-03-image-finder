@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import SVGComponent from 'svg/svgviewer-react-output (1)';
+import PropTypes from 'prop-types';
 
 export class Sesrchbar extends Component {
   state = {
@@ -43,6 +44,10 @@ export class Sesrchbar extends Component {
     );
   }
 }
+
+Sesrchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 const Searchbar = styled.div`
   top: 0;

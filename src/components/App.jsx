@@ -23,10 +23,11 @@ export class App extends Component {
     page: 1,
     pages: 1,
     error: null,
-    searchQuery: 'cars',
+    searchQuery: 'cat',
     status: statusList.idle,
     isOpen: false,
-    largeImg: '',
+    largeImg:
+      'https://pixabay.com/get/gefc652d82077e8592a864f93736ef11942c1ef8959a76938d4b8ac93e1ce78d1c4f7f45df58766dc3e29e76495611d9d7190520f5a873fb82c3819526250150a_1280.jpg',
   };
 
   handleSubmit = str => {
@@ -36,6 +37,7 @@ export class App extends Component {
   handlChangePage = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
     this.handleGetImages();
+    console.log(this.state.images);
   };
 
   handleGetImages = () => {
@@ -103,7 +105,7 @@ export class App extends Component {
                 onClickImage={this.setId}
                 key={image.id}
                 imageURL={image.webformatURL}
-                idForModal={image.largeImageURL}
+                largeImageURL={image.largeImageURL}
                 toggleModal={this.toggleModal}
               />
             ))}

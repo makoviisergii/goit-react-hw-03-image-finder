@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 export const LoadMoreBtn = ({ handlChangePage, page, pages }) => {
   if (page < pages + 1) {
@@ -9,6 +10,12 @@ export const LoadMoreBtn = ({ handlChangePage, page, pages }) => {
       </BtnBox>
     );
   }
+};
+
+LoadMoreBtn.propTypes = {
+  handlChangePage: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  pages: PropTypes.number.isRequired,
 };
 
 const BtnBox = styled.div`

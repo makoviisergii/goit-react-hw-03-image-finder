@@ -37,7 +37,6 @@ export class App extends Component {
   handlChangePage = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
     this.handleGetImages();
-    console.log(this.state.images);
   };
 
   handleGetImages = () => {

@@ -21,7 +21,7 @@ export class App extends Component {
   state = {
     images: [],
     page: 1,
-    pages: 1,
+    pages: 0,
     error: null,
     searchQuery: '',
     status: statusList.idle,
@@ -31,14 +31,16 @@ export class App extends Component {
   };
 
   handleSubmit = str => {
-    this.setState(prevState => ({
-      ...prevState,
-      ...{
-        searchQuery: str,
-        images: [],
-        page: 1,
-      },
-    }));
+    if (str !== this.state.searchQuery) {
+      this.setState(prevState => ({
+        ...prevState,
+        ...{
+          searchQuery: str,
+          images: [],
+          page: 1,
+        },
+      }));
+    }
   };
 
   handlChangePage = () => {
@@ -59,9 +61,10 @@ export class App extends Component {
       .catch(error => this.setState({ error, status: statusList.error }));
   };
 
-  componentDidMount() {
-    this.handleGetImages();
-  }
+  // componentDidMount() {
+  //   this.handleGetImages();
+  // }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
       this.handleGetImages();

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 export const LoadMoreBtn = ({ handlChangePage, page, pages }) => {
-  if (page < pages + 1) {
+  if (page < pages) {
     return (
       <BtnBox>
         <ButtonLoadMore onClick={handlChangePage}>Load More</ButtonLoadMore>

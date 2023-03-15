@@ -23,7 +23,7 @@ export class App extends Component {
     page: 1,
     pages: 1,
     error: null,
-    searchQuery: 'cat',
+    searchQuery: '',
     status: statusList.idle,
     isOpen: false,
     largeImg:
@@ -31,12 +31,18 @@ export class App extends Component {
   };
 
   handleSubmit = str => {
-    this.setState({ searchQuery: str });
+    this.setState(prevState => ({
+      ...prevState,
+      ...{
+        searchQuery: str,
+        images: [],
+        page: 1,
+      },
+    }));
   };
 
   handlChangePage = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
-    // this.handleGetImages();
   };
 
   handleGetImages = () => {
@@ -45,7 +51,7 @@ export class App extends Component {
     Loader(searchQuery, page)
       .then(res =>
         this.setState({
-          images: [...this.state.images, ...res.data.hits],
+          images: res.data.hits,
           pages: Math.ceil(res.data.total / 12),
           status: statusList.success,
         })
@@ -58,11 +64,21 @@ export class App extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
-      this.setState({ page: 1 });
+      this.handleGetImages();
       return;
     }
     if (prevState.page !== this.state.page) {
-      this.handleGetImages();
+      this.setState({ status: statusList.loading });
+      const { searchQuery, page } = this.state;
+      Loader(searchQuery, page)
+        .then(res =>
+          this.setState({
+            images: [...this.state.images, ...res.data.hits],
+            pages: Math.ceil(res.data.total / 12),
+            status: statusList.success,
+          })
+        )
+        .catch(error => this.setState({ error, status: statusList.error }));
     }
   }
 

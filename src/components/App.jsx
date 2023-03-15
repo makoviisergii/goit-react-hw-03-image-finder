@@ -36,7 +36,7 @@ export class App extends Component {
 
   handlChangePage = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
-    this.handleGetImages();
+    // this.handleGetImages();
   };
 
   handleGetImages = () => {
@@ -45,7 +45,7 @@ export class App extends Component {
     Loader(searchQuery, page)
       .then(res =>
         this.setState({
-          images: res.data.hits,
+          images: [...this.state.images, ...res.data.hits],
           pages: Math.ceil(res.data.total / 12),
           status: statusList.success,
         })
@@ -59,9 +59,13 @@ export class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
       this.setState({ page: 1 });
+      return;
+    }
+    if (prevState.page !== this.state.page) {
       this.handleGetImages();
     }
   }
+
   setId = largeImg => {
     this.setState({ largeImg });
   };
